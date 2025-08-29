@@ -1,0 +1,226 @@
+/* Layout */
+.container.masteradmin-container {
+  display: flex;
+  min-height: 100vh;
+  background: #f4f6fb;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Main Content */
+.main-content {
+  flex-grow: 1;
+  padding: 40px;
+  margin-left: 50px;
+}
+
+/* Header */
+.masteradmin-header {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* Error Message */
+.masteradmin-error {
+  color: #dc2626;
+  margin-bottom: 16px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Card */
+.card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  margin-bottom: 24px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  cursor: default;
+}
+.card:hover {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+}
+
+/* Primary Button */
+.btn-primary {
+  background: linear-gradient(135deg, #5b4de5, #4a6efb);
+  color: #fff;
+  padding: 14px 28px;
+  border-radius: 16px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  user-select: none;
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, #3b59d1, #2f5fe0);
+  transform: scale(1.06);
+  box-shadow: 0 10px 22px rgba(59, 130, 246, 0.55);
+}
+.btn-primary:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.5);
+}
+
+/* Table */
+.masteradmin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.masteradmin-table th {
+  background: #f9fafb;
+  color: #374151;
+  padding: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+.masteradmin-table td {
+  padding: 14px;
+  border-bottom: 1px solid #e5e7eb;
+}
+.masteradmin-table tbody tr {
+  transition: background 0.2s ease;
+}
+.masteradmin-table tbody tr:hover {
+  background: #f3f4f6;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  color: #6b7280;
+  padding: 30px;
+  font-size: 15px;
+}
+
+/* Status Badges */
+.status-badge {
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 13px;
+  color: white;
+}
+.status-active {
+  background-color: #22c55e;
+}
+.status-disabled {
+  background-color: #ef4444;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+  margin-right: 12px;
+}
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+input:checked + .slider {
+  background-color: #22c55e;
+}
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+/* Modal Backdrop */
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(17, 24, 39, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+/* Modal */
+.modal {
+  background: white;
+  border-radius: 20px;
+  padding: 50px;
+  width: 350px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  animation: fadeIn 0.3s ease;
+  text-align: center;
+}
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(-20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+.modal h2 {
+  margin-bottom: 20px;
+  color: #1f2937;
+}
+.modal input[type="password"] {
+  width: 90%;
+  padding: 12px 14px;
+  font-size: 15px;
+  border-radius: 12px;
+  border: 2px solid #3b82f6;
+  margin-bottom: 16px;
+  outline: none;
+}
+.modal-btn {
+  padding: 12px 24px;
+  font-weight: 700;
+  border-radius: 14px;
+  cursor: pointer;
+  border: none;
+  margin: 0 8px;
+}
+.modal-btn.confirm {
+  background-color: #3b82f6;
+  color: white;
+}
+.modal-btn.cancel {
+  background-color: #ef4444;
+  color: white;
+}
+
+/* Screen reader only (for accessibility) */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0,0,0,0) !important;
+  border: 0 !important;
+}
