@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 // Pages
+import VisitorPage from "./pages/VisitorPage.jsx";   // ✅ Your new modern visitor page
 import Dashboard from "./pages/Dashboard.jsx";
 import DataHistory from "./pages/DataHistory.jsx";
 import AdminLogin from "./pages/AdminLogin.jsx";
@@ -15,7 +16,7 @@ import ManualScan from "./pages/ManualScan.jsx";
 import UpdatePassword from "./pages/UpdatePassword.jsx";
 
 // Contexts
-import { AutoScanProvider } from "./context/AutoScanContext.js";  // ✅ NEW
+import { AutoScanProvider } from "./context/AutoScanContext.js";  
 
 export const AdminContext = createContext();
 
@@ -30,17 +31,19 @@ function App() {
 
   return (
     <AdminContext.Provider value={{ isAdmin, setIsAdmin }}>
-      <AutoScanProvider> {/* ✅ Wrap everything so Auto Scan is global */}
+      <AutoScanProvider>
         <Router>
           <Routes>
-            {/* Visitor dashboard */}
-            <Route path="/visitor" element={<Dashboard isAdminProp={false} />} />
+            {/* Visitor Landing Page */}
+            <Route path="/visitor" element={<VisitorPage />} />
 
-            {/* Admin routes */}
+            {/* Admin Dashboard */}
             <Route 
               path="/dashboard" 
               element={isAdmin ? <Dashboard isAdminProp={true} /> : <Navigate to="/admin" replace />} 
             />
+
+            {/* Admin Auth Routes */}
             <Route 
               path="/admin" 
               element={!isAdmin ? <AdminLogin /> : <Navigate to="/dashboard" replace />} 
@@ -52,6 +55,9 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/change-password" element={<ChangePassword />} />
+            <Route path="/update-password" element={<UpdatePassword />} />
+
+            {/* Admin-Only Pages */}
             <Route 
               path="/datahistory" 
               element={isAdmin ? <DataHistory /> : <Navigate to="/admin" replace />} 
@@ -64,9 +70,8 @@ function App() {
               path="/manual-scan" 
               element={isAdmin ? <ManualScan /> : <Navigate to="/admin" replace />} 
             />
-            <Route path="/update-password" element={<UpdatePassword />} />
 
-            {/* Default route */}
+            {/* Default Routes */}
             <Route path="/" element={<Navigate to="/visitor" replace />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
