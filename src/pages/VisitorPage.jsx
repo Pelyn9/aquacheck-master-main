@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../assets/VisitorPage.css";
 import cuacoImage from "../assets/picture/cuaco.jpg";
+import peejayPhoto from "../assets/picture/peejay.jpg"; // ✅ Import Peejay's photo
 
 const VisitorPage = () => {
   const [theme, setTheme] = useState("light");
@@ -95,6 +96,7 @@ const VisitorPage = () => {
           <a href="#home">Home</a>
           <a href="#features">Features</a>
           <a href="#about">About</a>
+          <a href="#developers">Developers</a>
           <a href="#contact">Contact</a>
           <button onClick={toggleTheme} className="theme-toggle-button">
             {theme === "light" ? "Dark" : "Light"}
@@ -115,7 +117,8 @@ const VisitorPage = () => {
                 key={key}
                 style={{ color: getColor(getStatus(key, sensorData[key])) }}
               >
-                {key.toUpperCase()}: {sensorData[key]} → {getStatus(key, sensorData[key])}
+                {key.toUpperCase()}: {sensorData[key]} →{" "}
+                {getStatus(key, sensorData[key])}
               </li>
             ))}
           </ul>
@@ -180,9 +183,35 @@ const VisitorPage = () => {
         </p>
       </section>
 
+      {/* Developers Section */}
+      <section id="developers" className="developers">
+        <h2>Meet the Developers</h2>
+        <div className="developer-list">
+          <div className="developer-card">
+            <img src={peejayPhoto} alt="Peejay Marco A. Apale" className="dev-photo" />
+            <p><b>Peejay Marco A. Apale</b></p>
+          </div>
+          <div className="developer-card">
+            <img src="placeholder.jpg" alt="ALDRIC RHOLEN CALATRAVA" className="dev-photo" />
+            <p><b>ALDRIC RHOLEN CALATRAVA</b></p>
+          </div>
+          <div className="developer-card">
+            <img src="placeholder.jpg" alt="Lawrence Jay Saludes" className="dev-photo" />
+            <p><b>Lawrence Jay Saludes</b></p>
+          </div>
+          <div className="developer-card">
+            <img src="placeholder.jpg" alt="WENCE DANTE DE VERA" className="dev-photo" />
+            <p><b>WENCE DANTE DE VERA</b></p>
+          </div>
+        </div>
+      </section>
+
       {/* Contact Section */}
       <section id="contact" className="contact">
-        Email: <a href="mailto:contact@aquacheck.com" className="highlight">contact@aquacheck.com</a>
+        Email:{" "}
+        <a href="mailto:contact@aquacheck.com" className="highlight">
+          contact@aquacheck.com
+        </a>
         <p>Phone: <span className="highlight"></span>+63 912 345 6789</p>
       </section>
 

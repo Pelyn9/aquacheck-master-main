@@ -158,3 +158,9 @@ select:focus {
   font-weight: 500;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
+
+.manual-scan-btn.faded {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}

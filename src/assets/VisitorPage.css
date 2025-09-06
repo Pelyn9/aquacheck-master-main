@@ -387,4 +387,63 @@ html, body {
   }
 }
 
+/* 👥 Developers Section */
+.developers {
+  margin-top: 3rem;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.developer-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* ✅ 2x2 layout */
+  gap: 3rem;
+  justify-items: center;
+  margin-top: 2rem;
+}
+
+.developer-card {
+  background: var(--card-bg, #1e2a38);
+  padding: 2rem;
+  border-radius: 16px;
+  width: 280px; /* 🔥 Bigger card */
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.developer-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.dev-photo {
+  width: 190px;  /* 🔥 Bigger photo */
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+  border: 3px solid #4fc3f7;
+}
+
+.developer-card p {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0.3rem 0;
+}
+
+.developer-card span {
+  font-size: 0.95rem;
+  color: #ccc;
+}
+
+/* 📱 Mobile responsive (1 column) */
+@media (max-width: 768px) {
+  .developer-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
 /* Keep all your previous styles as is for navbar, hero, live-card, etc. */

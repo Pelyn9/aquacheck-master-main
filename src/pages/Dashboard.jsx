@@ -8,8 +8,13 @@ import { supabase } from "../supabaseClient";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const { autoScanRunning, startAutoScan, stopAutoScan, intervalTime, setIntervalTime } =
-    useContext(AutoScanContext);
+  const {
+    autoScanRunning,
+    startAutoScan,
+    stopAutoScan,
+    intervalTime,
+    setIntervalTime,
+  } = useContext(AutoScanContext);
 
   const [sensorData, setSensorData] = useState({
     ph: "N/A",
@@ -29,7 +34,9 @@ const AdminDashboard = () => {
       const data = await response.json();
       setSensorData({
         ph: data.ph ? parseFloat(data.ph).toFixed(2) : "N/A",
-        turbidity: data.turbidity ? parseFloat(data.turbidity).toFixed(1) : "N/A",
+        turbidity: data.turbidity
+          ? parseFloat(data.turbidity).toFixed(1)
+          : "N/A",
         temp: data.temp ? parseFloat(data.temp).toFixed(1) : "N/A",
         tds: data.tds ? parseFloat(data.tds).toFixed(0) : "N/A",
       });
@@ -90,8 +97,11 @@ const AdminDashboard = () => {
   };
 
   const handleManualScanClick = () => {
-    if (!autoScanRunning) navigate("/manual-scan", { state: { autoScanRunning } });
-    else setStatus("⚠️ Stop Auto Scan before using Manual Scan.");
+    if (!autoScanRunning) {
+      navigate("/manual-scan", { state: { autoScanRunning } });
+    } else {
+      setStatus("⚠️ Stop Auto Scan before using Manual Scan.");
+    }
   };
 
   return (
@@ -123,7 +133,12 @@ const AdminDashboard = () => {
           </div>
 
           <div className="button-group">
-            <button className="manual-scan-btn" onClick={handleManualScanClick} disabled={autoScanRunning}>
+            {/* Manual Scan button fades + disables if Auto Scan is running */}
+            <button
+              className={`manual-scan-btn ${autoScanRunning ? "faded" : ""}`}
+              onClick={handleManualScanClick}
+              disabled={autoScanRunning}
+            >
               Manual Scan
             </button>
             <button className="save-btn" onClick={handleSave}>
@@ -144,15 +159,24 @@ const AdminDashboard = () => {
             <h3>pH Level</h3>
             <p>{sensorData.ph}</p>
           </div>
-          <div className={`sensor-card ${getSensorStatus("turbidity", sensorData.turbidity)}`}>
+          <div
+            className={`sensor-card ${getSensorStatus(
+              "turbidity",
+              sensorData.turbidity
+            )}`}
+          >
             <h3>Turbidity</h3>
             <p>{sensorData.turbidity} NTU</p>
           </div>
-          <div className={`sensor-card ${getSensorStatus("temp", sensorData.temp)}`}>
+          <div
+            className={`sensor-card ${getSensorStatus("temp", sensorData.temp)}`}
+          >
             <h3>Temperature</h3>
             <p>{sensorData.temp} °C</p>
           </div>
-          <div className={`sensor-card ${getSensorStatus("tds", sensorData.tds)}`}>
+          <div
+            className={`sensor-card ${getSensorStatus("tds", sensorData.tds)}`}
+          >
             <h3>TDS</h3>
             <p>{sensorData.tds} ppm</p>
           </div>
