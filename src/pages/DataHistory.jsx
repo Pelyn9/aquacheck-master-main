@@ -57,6 +57,10 @@ const DataHistory = () => {
     text: "",
   });
 
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
+  const [downloadMode, setDownloadMode] = useState("all"); // all, date, safe, caution, unsafe
+  const [downloadDate, setDownloadDate] = useState("");
+
   const tableContainerRef = useRef(null);
 
   // ✅ Fetch Supabase data
@@ -94,8 +98,6 @@ const DataHistory = () => {
     };
 
     deleteOldData();
-
-    // Optional: run every 24 hours while page is open
     const interval = setInterval(deleteOldData, 86400000);
     return () => clearInterval(interval);
   }, []);
@@ -133,11 +135,11 @@ const DataHistory = () => {
   const goPrev = () => setPage((p) => Math.max(p - 1, 1));
   const goNext = () => setPage((p) => Math.min(p + 1, totalPages));
 
-  // ✅ CSV download
-  const handleDownload = () => {
-    const csv = [
+  // ✅ Download Helper
+  const generateCSV = (rows) => {
+    return [
       ["Time", "pH", "Turbidity", "Temperature", "TDS", "Status"],
-      ...filteredData.map((row) => [
+      ...rows.map((row) => [
         row.created_at,
         row.ph,
         row.turbidity,
@@ -148,7 +150,33 @@ const DataHistory = () => {
     ]
       .map((e) => e.join(","))
       .join("\n");
+  };
 
+  const handleDownload = () => {
+    let downloadData = data;
+
+    if (downloadMode === "safe") {
+      downloadData = data.filter((entry) => getOverallStatus(entry) === "Safe");
+    } else if (downloadMode === "caution") {
+      downloadData = data.filter(
+        (entry) => getOverallStatus(entry) === "Caution"
+      );
+    } else if (downloadMode === "unsafe") {
+      downloadData = data.filter(
+        (entry) => getOverallStatus(entry) === "Unsafe"
+      );
+    } else if (downloadMode === "date" && downloadDate) {
+      downloadData = data.filter((entry) =>
+        entry.created_at.startsWith(downloadDate)
+      );
+    }
+
+    if (downloadData.length === 0) {
+      alert("⚠ No matching records found for your selection.");
+      return;
+    }
+
+    const csv = generateCSV(downloadData);
     const blob = new Blob([csv], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
 
@@ -158,6 +186,7 @@ const DataHistory = () => {
     link.click();
 
     URL.revokeObjectURL(url);
+    setShowDownloadModal(false);
   };
 
   return (
@@ -205,12 +234,17 @@ const DataHistory = () => {
                 placeholder="Search timestamp..."
                 value={filters.text}
                 onChange={(e) =>
-                  setFilters((prev) => ({ ...prev, text: e.target.value.trim() }))
+                  setFilters((prev) => ({
+                    ...prev,
+                    text: e.target.value.trim(),
+                  }))
                 }
               />
             </label>
 
-            <button onClick={handleDownload}>⬇ Download CSV</button>
+            <button onClick={() => setShowDownloadModal(true)}>
+              ⬇ Download CSV
+            </button>
           </div>
         </div>
 
@@ -265,6 +299,50 @@ const DataHistory = () => {
             <button onClick={goNext} disabled={page === totalPages}>
               Next
             </button>
+          </div>
+        )}
+
+        {/* Download Options Modal */}
+        {showDownloadModal && (
+          <div className="download-modal">
+            <div className="modal-content">
+              <h3>Download Options</h3>
+
+              <label>
+                Mode:
+                <select
+                  value={downloadMode}
+                  onChange={(e) => setDownloadMode(e.target.value)}
+                >
+                  <option value="all">All Data</option>
+                  <option value="date">By Date</option>
+                  <option value="safe">Only Safe</option>
+                  <option value="caution">Only Caution</option>
+                  <option value="unsafe">Only Unsafe</option>
+                </select>
+              </label>
+
+              {downloadMode === "date" && (
+                <label>
+                  Select Date:
+                  <input
+                    type="date"
+                    value={downloadDate}
+                    onChange={(e) => setDownloadDate(e.target.value)}
+                  />
+                </label>
+              )}
+
+              <div className="modal-actions">
+                <button onClick={handleDownload}>Download</button>
+                <button
+                  className="cancel"
+                  onClick={() => setShowDownloadModal(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>
